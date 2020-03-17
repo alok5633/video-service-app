@@ -26,23 +26,19 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             peer.on('stream', function (stream) {
                 CreateVideo(stream)
             })
-            //This isn't working in chrome; works perfectly in firefox.
-            // peer.on('close', function () {
-            //     document.getElementById("peerVideo").remove();
-            //     peer.destroy()
-            // })
+           
             peer.on('data', function (data) {
                 let decodedData = new TextDecoder('utf-8').decode(data)
                 let peervideo = document.querySelector('#peerVideo')
                 peervideo.style.filter = decodedData
             })
             return peer
-        }
+        };
 
         //for peer of type init
         function MakePeer() {
             client.gotAnswer = false
-            let peer = InitPeer('init')
+            let peer = InitPeer('init') // for initializing peer
             peer.on('signal', function (data) {
                 if (!client.gotAnswer) {
                     socket.emit('Offer', data)
